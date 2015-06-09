@@ -17,6 +17,7 @@ class ScavengeController < ApplicationController
 
         	weather = HkWeather.find_or_initialize_by(date: date)
         	weather.update(date: date, temp_day: wData['temp']['day'],temp_min:wData['temp']['min'],temp_max:wData['temp']['max'], temp_night:wData['temp']['night'],temp_eve:wData['temp']['eve'],temp_morn:wData['temp']['morn'],pressure:wData['pressure'],humidity:wData['humidity'],weather_description:wData['weather'][0]['description'],weather_icon:wData['weather'][0]['icon'],wind_speed:wData['speed'],wind_deg:wData['deg'],clouds:wData['clouds'])
+        	render plain: 'ok'
         end
 	end
 end
