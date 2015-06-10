@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root 'welcome#index'
   get '/scavenge' => 'scavenge#index'
   get '/hkweather' => 'hkweather#index'
+  post '/hkweather' => 'hkweather#weatherapi'
   # Example of regular route: 
   #   get 'products/:id' => 'catalog#view'
 
