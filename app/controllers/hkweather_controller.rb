@@ -1,19 +1,17 @@
 class HkweatherController < ApplicationController
+	skip_before_filter :verify_authenticity_token
+
 	def index
-		test = '2015-06-11'
-		weather = HkWeather.where('date >= ?',test).order('date ASC').limit(4)
+		today = Time.new
+		@weather = HkWeather.where('date >= ?',today.localtime.to_date).order('date ASC').limit(4)
 
-		render json:ActiveSupport::JSON.encode(weather)
-
+		#render json:ActiveSupport::JSON.encode(weather)
 	end
 
 	def weatherapi
-=begin
-		test = '2015-06-11'
-		weather = HkWeather.where('date >= ?',test).order('date ASC').limit(4)
+		date = params[:date]
+		weather = HkWeather.where('date >= ?',date).order('date ASC').limit(4)
 
-		render json:ActiveSupport::JSON.encode(weather)
-=end
-		render plain: params[:date]
+		render json: weather
 	end
 end
