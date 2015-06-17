@@ -1,23 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-    $("button").click(function(){
-        $.ajax({
+	<title>Weather Forecast for Everyone</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>
+	function weather(date){
+	    $.ajax({
 		    url: "/hkweather",
 		    type: "POST",
-		    data: {date: '2015-06-11'},
-		    success: function(resp){alert(resp) }
+		    data: {date: date},
+		    success: function(resp){
+		    	var date0 = resp[0]['date'].split('-')
+		    	var date1 = resp[1]['date'].split('-')
+		    	var date2 = resp[2]['date'].split('-')
+		    	var date3 = resp[3]['date'].split('-')
+
+		    	$("#date0").text(parseInt(date0[1]).toString()+'/'+parseInt(date0[2]).toString());
+		    	$('#weather_icon').attr("src", "http://openweathermap.org/img/w/"+resp[0]['weather_icon']+".png")
+		    	$("#temp_day0").text(resp[0]['temp_day']+' °C');
+		    	$("#wind").text(resp[0]['wind_speed']+' m/s');
+		    	$("#cloud").text(resp[0]['clouds']+' %');
+		    	$("#pressure").text(resp[0]['pressure']+' hpa');
+		    	$("#humidity").text(resp[0]['humidity']+' %');
+		    	$("#min_temp").text(resp[0]['temp_min']+' °C');
+		    	$("#max_temp").text(resp[0]['temp_max']+' °C');
+		    	$("#mor_temp").text(resp[0]['temp_morn']+' °C');
+		    	$("#eve_temp").text(resp[0]['temp_eve']+' °C');
+
+		    	$("#ajax1").attr("href","javascript:weather('"+ resp[1]['date']+"')");
+		    	$("#date1").text(parseInt(date1[1]).toString()+'/'+parseInt(date1[2]).toString());
+		    	$("#temp_day1").text(resp[1]['temp_day']+' °C');
+
+		    	$("#ajax2").attr("href","javascript:weather('"+ resp[2]['date']+"')");
+		    	$("#date2").text(parseInt(date2[1]).toString()+'/'+parseInt(date2[2]).toString());
+		    	$("#temp_day2").text(resp[2]['temp_day']+' °C');
+
+		    	$("#ajax3").attr("href","javascript:weather('"+ resp[3]['date']+"')");
+		    	$("#date3").text(parseInt(date3[1]).toString()+'/'+parseInt(date3[2]).toString());
+		    	$("#temp_day3").text(resp[3]['temp_day']+' °C');
+		    }
 		});
-    });
-});
-</script>
+	}
+	</script>
 </head>
 <body>
-<%= @weather[0]['temp_day'] %>
-<button>Send an HTTP POST request to a page and get the result back</button>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Hong Kong City Weather Forecast</a>
+            </div>
+    </nav>
+	<%= image_tag "header.jpg", {width:1903,height:120} %>
+	<br/>
+	
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Jumbotron Header -->
+        <header class="jumbotron hero-spacer">
+			
+			<h3 id='date0'><%= @date[0] %></h3>
+
+			
+			
+			<h2> <img id="weather_icon" src="http://openweathermap.org/img/w/<%= @weather[0]['weather_icon'] %>.png"><h2 id="temp_day0"> <%= @weather[0]['temp_day'] %> &deg;C</h2></h2>
+			
+
+			<table class="table table-striped table-bordered table-condensed">
+			<tbody>
+
+				<tr><td>Wind</td><td id="wind">  <%= @weather[0]['wind_speed'] %> m/s</td></tr>
+
+				<tr><td>Cloudiness</td><td id="cloud"> <%= @weather[0]['clouds'] %> %</td></tr>
+
+				<tr><td>Pressure<br></td><td id="pressure"> <%= @weather[0]['pressure'] %> hpa</td></tr>
+
+				<tr><td>Humidity</td><td id="humidity"> <%= @weather[0]['humidity'] %> %</td></tr>
+
+				<tr><td>Min Temperature</td><td id="min_temp"> <%= @weather[0]['temp_min'] %> &deg;C</td></tr>
+
+				<tr><td>Max Temperature</td><td id="max_temp"> <%= @weather[0]['temp_max'] %> &deg;C</td></tr>
+
+				<tr><td>Morning Temperature</td><td id="mor_temp"> <%= @weather[0]['temp_morn'] %> &deg;C</td></tr>
+
+				<tr><td>Evening Temperature</td><td id="eve_temp"> <%= @weather[0]['temp_eve'] %> &deg;C</td></tr>
+
+			</tbody>
+			</table>
+        </header>
+
+        <hr>
+
+
+        <!-- Page Features -->
+        <div class="row text-center">
+
+            <div class="col-md-4 col-sm-6 hero-feature">
+                <div class="thumbnail">
+					<a id="ajax1" href="javascript:weather('<%= @weather[1]['date'] %>')" >
+						<h3 id="date1"><%= @date[1] %></h3>
+						<img id="img1" src="http://openweathermap.org/img/w/<%= @weather[1]['weather_icon'] %>.png" alt=""> <h3 id="temp_day1"> <%= @weather[1]['temp_day'] %> &deg;C</h3>
+					</a>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 hero-feature">
+                <div class="thumbnail">
+					<a id="ajax1" href="javascript:weather('<%= @weather[2]['date'] %>')" >
+						<h3 id="date2"><%= @date[2] %></h3>
+	                    <img id="img2" src="http://openweathermap.org/img/w/<%= @weather[2]['weather_icon'] %>.png" alt=""><h3 id="temp_day2"> <%= @weather[2]['temp_day'] %> &deg;C</h3>
+					</a>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 hero-feature">
+                <div class="thumbnail">
+					<a id="ajax1" href="javascript:weather('<%= @weather[3]['date'] %>')" >
+						<h3 id="date2"><%= @date[3] %></h3>
+	                    <img id="img3"src="http://openweathermap.org/img/w/<%= @weather[3]['weather_icon'] %>.png" alt=""> <h3 id="temp_day3"> <%= @weather[3]['temp_day'] %> &deg;C</h3>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Tatsuki Monji, Hafiz Al Ghazali, Mariama Faye 2015</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
 
 </body>
 </html>
