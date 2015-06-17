@@ -12,9 +12,6 @@
 		    data: {date: date},
 		    success: function(resp){
 		    	var date0 = resp[0]['date'].split('-')
-		    	var date1 = resp[1]['date'].split('-')
-		    	var date2 = resp[2]['date'].split('-')
-		    	var date3 = resp[3]['date'].split('-')
 
 		    	$("#date0").text(parseInt(date0[1]).toString()+'/'+parseInt(date0[2]).toString());
 		    	$('#weather_icon').attr("src", "http://openweathermap.org/img/w/"+resp[0]['weather_icon']+".png")
@@ -28,17 +25,32 @@
 		    	$("#mor_temp").text(resp[0]['temp_morn']+' °C');
 		    	$("#eve_temp").text(resp[0]['temp_eve']+' °C');
 
-		    	$("#ajax1").attr("href","javascript:weather('"+ resp[1]['date']+"')");
-		    	$("#date1").text(parseInt(date1[1]).toString()+'/'+parseInt(date1[2]).toString());
-		    	$("#temp_day1").text(resp[1]['temp_day']+' °C');
+		    	if(resp[1]){
+		    		var date1 = resp[1]['date'].split('-')
+			    	$("#ajax1").attr("href","javascript:weather('"+ resp[1]['date']+"')");
+			    	$("#date1").text(parseInt(date1[1]).toString()+'/'+parseInt(date1[2]).toString());
+			    	$("#temp_day1").text(resp[1]['temp_day']+' °C');
+			    }else{
+			    	$("#thumbnail1").hide()
+			    }
 
-		    	$("#ajax2").attr("href","javascript:weather('"+ resp[2]['date']+"')");
-		    	$("#date2").text(parseInt(date2[1]).toString()+'/'+parseInt(date2[2]).toString());
-		    	$("#temp_day2").text(resp[2]['temp_day']+' °C');
+		    	if(resp[2]){
+		    		var date2 = resp[2]['date'].split('-')
+			    	$("#ajax2").attr("href","javascript:weather('"+ resp[2]['date']+"')");
+			    	$("#date2").text(parseInt(date2[1]).toString()+'/'+parseInt(date2[2]).toString());
+			    	$("#temp_day2").text(resp[2]['temp_day']+' °C');
+				}else{
+			    	$("#thumbnail2").hide()
+			    }
 
-		    	$("#ajax3").attr("href","javascript:weather('"+ resp[3]['date']+"')");
-		    	$("#date3").text(parseInt(date3[1]).toString()+'/'+parseInt(date3[2]).toString());
-		    	$("#temp_day3").text(resp[3]['temp_day']+' °C');
+		    	if(resp[3]){
+		    		var date3 = resp[3]['date'].split('-')
+			    	$("#ajax3").attr("href","javascript:weather('"+ resp[3]['date']+"')");
+			    	$("#date3").text(parseInt(date3[1]).toString()+'/'+parseInt(date3[2]).toString());
+			    	$("#temp_day3").text(resp[3]['temp_day']+' °C');
+			    }else{
+			    	$("#thumbnail3").hide()
+			    }
 		    }
 		});
 	}
@@ -98,7 +110,7 @@
         <div class="row text-center">
 
             <div class="col-md-4 col-sm-6 hero-feature">
-                <div class="thumbnail">
+                <div class="thumbnail" id="thumbnail1">
 					<a id="ajax1" href="javascript:weather('<%= @weather[1]['date'] %>')" >
 						<h3 id="date1"><%= @date[1] %></h3>
 						<img id="img1" src="http://openweathermap.org/img/w/<%= @weather[1]['weather_icon'] %>.png" alt=""> <h3 id="temp_day1"> <%= @weather[1]['temp_day'] %> &deg;C</h3>
@@ -107,8 +119,8 @@
             </div>
 
             <div class="col-md-4 col-sm-6 hero-feature">
-                <div class="thumbnail">
-					<a id="ajax1" href="javascript:weather('<%= @weather[2]['date'] %>')" >
+                <div class="thumbnail" id="thumbnail2">
+					<a id="ajax2" href="javascript:weather('<%= @weather[2]['date'] %>')" >
 						<h3 id="date2"><%= @date[2] %></h3>
 	                    <img id="img2" src="http://openweathermap.org/img/w/<%= @weather[2]['weather_icon'] %>.png" alt=""><h3 id="temp_day2"> <%= @weather[2]['temp_day'] %> &deg;C</h3>
 					</a>
@@ -116,9 +128,9 @@
             </div>
 
             <div class="col-md-4 col-sm-6 hero-feature">
-                <div class="thumbnail">
-					<a id="ajax1" href="javascript:weather('<%= @weather[3]['date'] %>')" >
-						<h3 id="date2"><%= @date[3] %></h3>
+                <div class="thumbnail" id="thumbnail3">
+					<a id="ajax3" href="javascript:weather('<%= @weather[3]['date'] %>')" >
+						<h3 id="date3"><%= @date[3] %></h3>
 	                    <img id="img3"src="http://openweathermap.org/img/w/<%= @weather[3]['weather_icon'] %>.png" alt=""> <h3 id="temp_day3"> <%= @weather[3]['temp_day'] %> &deg;C</h3>
                     </a>
                 </div>
