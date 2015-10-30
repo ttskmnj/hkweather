@@ -32,7 +32,7 @@
 			    	$("#date1").text(parseInt(date1[1]).toString()+'/'+parseInt(date1[2]).toString());
 			    	$("#temp_day1").text(resp[1]['temp_day']+' °C');
 			    }else{
-			    	$("#thumbnail1").hide()
+			    	$("#laters").hide()
 			    }
 
 		    	if(resp[2]){
@@ -166,7 +166,7 @@
 
 
         <!-- Page Features -->
-        <div class="row text-center">
+        <div class="row text-center" id="laters">
 
             <div class="col-md-4 col-sm-6 hero-feature">
                 <div class="thumbnail" id="thumbnail1">
