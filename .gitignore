@@ -14,4 +14,4 @@
 
 
 # Ignore secretfiles 
-config/secrets.yml
+/config/secrets.yml
