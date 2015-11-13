@@ -21,3 +21,4 @@ class ScavengeController < ApplicationController
         render plain: 'ok'
 	end
 end
+
